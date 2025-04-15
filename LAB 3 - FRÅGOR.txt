@@ -1,0 +1,51 @@
+
+1.- Vad är syftet med att använda AsNoTracking i Entity Framework Core och hur påverkar det prestandan?
+AsNoTracking gör att EF inte sparar objekt i minnet när den hämtar data.
+Det gör att det går snabbare och drar mindre resurser.
+Vi använder det när vi bara vill läsa data, inte ändra den.
+
+2.- Hur fungerar Dependency Injection (DI) i ASP.NET Core och varför är det viktigt för att hantera DbContext?
+DI betyder att vi inte själva skapar saker som DbContext, men ramverket gör det åt oss.
+Det är bra eftersom vi slipper skriva extra kod, och allt blir mer testbart och tydligt.
+Vi registrerar DbContext i Program.cs och ASP.NET Core sköter resten.
+
+3.- Vad är skillnaden mellan synkrona och asynkrona metoder i en webapplikation, och varför använde vi asynkrona metoder i våra endpoints?
+Synkron = väntar klart innan nästa steg
+Asynkron = fortsätter medan vi väntar, t.ex. på databasen
+
+Vi använde async för att API:t ska klara fler användare samtidigt och inte frysa.
+
+4.- Hur konfigurerar vi en databasanslutning i appsettings.json och hur används den i Program.cs?
+I appsettings.json skriver vi anslutningssträngen till databasen.
+I Program.cs hämtar vi den med builder.Configuration.GetConnectionString()
+och skickar in den till UseSqlServer(...) när vi lägger till DbContext.
+
+5.- Vad är fördelen med att använda Include-metoden när vi hämtar data med relationer i Entity Framework Core?
+Include gör att relaterade objekt (t.ex. Author till Book) följer med direkt.
+Annars blir de tomma (null) och vi måste hämta dem separat.
+Det gör datan komplett och tydlig.
+
+6.- Hur kan vi hantera cyclic data problem när vi serialiserar objekt med relationer i JSON?
+Om t.ex. en Book har en Cover, och Cover pekar tillbaka på Book,
+kan det bli en oändlig loop i JSON.
+Vi löser det genom att säga åt JSON att ignorera sådana loopar.
+
+7.- Vad är syftet med att använda ReferenceHandler.IgnoreCycles i JSON-serialisering och hur påverkar det resultatet?
+Den säger åt JSON att inte fastna i cirklar (loopar).
+Det gör att API:t fungerar normalt och skickar ut giltig JSON.
+Utan det skulle det krascha.
+
+8.- Hur kan vi använda Swagger för att testa våra API-endpoints och vad är fördelarna med detta verktyg?
+Swagger visar alla endpoints i webbläsaren.
+Vi kan testa dem direkt – utan att bygga egen frontend.
+Det är snabbt, tydligt, och visar exakt vad som händer.
+
+9.- Vad är skillnaden mellan att använda MapGet direkt i Program.cs och att ha logiken i separata klasser?
+MapGet i Program.cs funkar för små appar.
+Men i större appar är det bättre att ha endpoints i egna klasser,
+så det blir mer ordning och lättare att hitta och ändra kod
+
+10.- Hur kan vi uppdatera paketversioner i .csproj-filen och varför är det viktigt att hålla dem uppdaterade?
+Vi ändrar <PackageReference> i .csproj eller kör dotnet add package ...
+Det är viktigt för att få nya funktioner, buggfixar och säkerhet.
+Gamla versioner kan göra så att projektet kraschar eller blir osäkert.
